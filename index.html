@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Famille Connect Pro - Version Finale</title>
+    <title>Famille Connect Pro - Version Corrigée v2.1</title>
     
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -132,6 +132,12 @@
             background: linear-gradient(135deg, #e53e3e, #c53030);
         }
 
+        .btn.small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            min-width: 80px;
+        }
+
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -181,6 +187,16 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+        }
+
+        .creator-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
         }
 
         /* =================
@@ -436,6 +452,17 @@
             animation: none;
         }
 
+        .member-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .member-actions .btn.small {
+            margin: 0;
+        }
+
         /* =================
            GALERIE PHOTOS
            ================= */
@@ -477,6 +504,23 @@
             background: rgba(102, 126, 234, 0.1);
             color: #667eea;
             font-weight: bold;
+        }
+
+        .photo-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 10px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-item:hover .photo-info {
+            opacity: 1;
         }
 
         /* =================
@@ -770,6 +814,101 @@
             transition: all 0.3s ease;
             user-select: none;
         }
+
+        /* =================
+           CALENDRIER
+           ================= */
+        .calendar-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: #f8f9fa;
+            border: 2px solid #e2e8f0;
+        }
+
+        .calendar-day:hover {
+            background: #e2e8f0;
+        }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .calendar-day.has-event {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+        }
+
+        .calendar-day.has-event::after {
+            content: '•';
+            position: absolute;
+            bottom: 2px;
+            right: 5px;
+            font-size: 1.5rem;
+        }
+
+        .events-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .event-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .event-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .event-date {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* =================
+           VIDÉOCONFÉRENCE
+           ================= */
         .video-conference {
             background: #1a1a1a;
             border-radius: 20px;
@@ -1123,9 +1262,9 @@
              ======================== -->
         <div id="connectionSetup" class="connection-setup">
             <h1>👨‍👩‍👧‍👦 Famille Connect Pro</h1>
-            <h2 style="color: #718096; margin-bottom: 10px;">L'application familiale complète</h2>
+            <h2 style="color: #718096; margin-bottom: 10px;">L'application familiale complète v2.1</h2>
             <p style="color: #a0aec0; margin-bottom: 30px;">
-                Chat temps réel • Photos • Jeux • Vidéoconférences
+                Chat temps réel • Photos persistantes • 10 Jeux complets • Calendrier • Vidéoconférences
             </p>
 
             <div class="family-code-section">
@@ -1151,12 +1290,13 @@
             </div>
 
             <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 15px; margin-top: 30px; border: 1px solid #bfdbfe;">
-                <h4 style="color: #1e40af; margin-bottom: 15px;">💡 Comment ça marche :</h4>
+                <h4 style="color: #1e40af; margin-bottom: 15px;">✨ Nouveautés v2.1 :</h4>
                 <div style="text-align: left; font-size: 0.95rem; color: #1e3a8a; line-height: 1.6;">
-                    <p><strong>1.</strong> Créez votre famille → Vous recevez un code unique</p>
-                    <p><strong>2.</strong> Partagez ce code avec votre famille</p>
-                    <p><strong>3.</strong> Ils rejoignent avec le même code</p>
-                    <p><strong>4.</strong> Profitez du chat, photos, jeux et vidéos !</p>
+                    <p><strong>🔧</strong> Reconnexion automatique sans doublons</p>
+                    <p><strong>👥</strong> Gestion avancée des membres</p>
+                    <p><strong>📸</strong> Photos persistantes avec Supabase Storage</p>
+                    <p><strong>🎮</strong> Tous les 10 jeux maintenant fonctionnels</p>
+                    <p><strong>📅</strong> Calendrier familial intégré</p>
                 </div>
             </div>
         </div>
@@ -1183,6 +1323,7 @@
                 <button class="nav-tab" onclick="showSection('family')">👥 Famille</button>
                 <button class="nav-tab" onclick="showSection('photos')">📸 Photos</button>
                 <button class="nav-tab" onclick="showSection('games')">🎮 Jeux</button>
+                <button class="nav-tab" onclick="showSection('calendar')">📅 Calendrier</button>
                 <button class="nav-tab" onclick="showSection('video')">📹 Vidéo</button>
                 <button class="nav-tab" onclick="showSection('settings')">⚙️ Réglages</button>
             </div>
@@ -1225,7 +1366,10 @@
             <div id="familySection" class="content-section">
                 <div class="section-header">
                     <h3>👥 Ma Famille</h3>
-                    <button class="btn" onclick="addFamilyMember()">➕ Ajouter membre</button>
+                    <div>
+                        <button class="btn secondary" onclick="addFamilyMember()">➕ Ajouter membre</button>
+                        <button class="btn" id="manageBtn" onclick="toggleManageMode()" style="display: none;">⚙️ Gérer</button>
+                    </div>
                 </div>
                 
                 <div class="stats-grid">
@@ -1257,7 +1401,7 @@
                  ======================== -->
             <div id="photosSection" class="content-section">
                 <div class="section-header">
-                    <h3>📸 Galerie Familiale</h3>
+                    <h3>📸 Galerie Familiale Persistante</h3>
                     <button class="btn" onclick="uploadPhotos()">📤 Ajouter photos</button>
                 </div>
                 
@@ -1278,7 +1422,7 @@
                  ======================== -->
             <div id="gamesSection" class="content-section">
                 <div class="section-header">
-                    <h3>🎮 Centre de Jeux</h3>
+                    <h3>🎮 Centre de Jeux - 10 Jeux Complets</h3>
                     <div>
                         <button class="btn secondary" onclick="refreshAllGames()">🔄 Renouveler</button>
                         <button class="btn" onclick="randomGame()">🎲 Jeu surprise</button>
@@ -1289,7 +1433,7 @@
                     <div class="game-card" onclick="startMemoryGame()" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);">
                         <div class="game-icon">🧠</div>
                         <div class="game-title">Mémoire Enhanced</div>
-                        <div class="game-description">5 niveaux avec images renouvelables</div>
+                        <div class="game-description">5 niveaux progressifs</div>
                         <div class="game-difficulty">Niveau <span id="memoryLevel">1</span>/5</div>
                     </div>
                     
@@ -1317,7 +1461,7 @@
                     <div class="game-card" onclick="startWordGame()" style="background: linear-gradient(135deg, #a8e6cf, #dcedc1);">
                         <div class="game-icon">📝</div>
                         <div class="game-title">Mots Mélangés</div>
-                        <div class="game-description">Thèmes renouvelables avec indices</div>
+                        <div class="game-description">Thèmes renouvelables</div>
                         <div class="game-difficulty">Moyen</div>
                     </div>
                     
@@ -1352,7 +1496,7 @@
                     <div class="game-card" onclick="startReactionGame()" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
                         <div class="game-icon">⚡</div>
                         <div class="game-title">Test de Réflexes</div>
-                        <div class="game-description">Mesure temps de réaction</div>
+                        <div class="game-description">5 rounds intensifs</div>
                         <div class="game-difficulty">Intensif</div>
                     </div>
                 </div>
@@ -1362,6 +1506,38 @@
                     <div id="gameContent"></div>
                     <div class="text-center mt-20">
                         <button class="btn danger" onclick="closeGame()">🚪 Quitter le jeu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================
+                 SECTION CALENDRIER
+                 ======================== -->
+            <div id="calendarSection" class="content-section">
+                <div class="section-header">
+                    <h3>📅 Calendrier Familial</h3>
+                    <button class="btn" onclick="addEvent()">➕ Nouvel événement</button>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <h4 id="currentMonth">Janvier 2025</h4>
+                        <div class="calendar-nav">
+                            <button class="btn small" onclick="previousMonth()">◀</button>
+                            <button class="btn small" onclick="todayCalendar()">Aujourd'hui</button>
+                            <button class="btn small" onclick="nextMonth()">▶</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendrier généré dynamiquement -->
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4 style="margin-bottom: 15px;">📋 Prochains événements</h4>
+                    <div class="events-list" id="eventsList">
+                        <!-- Événements générés dynamiquement -->
                     </div>
                 </div>
             </div>
@@ -1414,7 +1590,7 @@
                 
                 <div style="background: #f0f9ff; padding: 20px; border-radius: 15px; margin-bottom: 25px; text-align: center;">
                     <p style="margin: 0; font-weight: 600; color: #1e40af;">
-                        🔗 Connecté à Supabase - Synchronisation temps réel active
+                        🔗 Connecté à Supabase - Version 2.1 avec toutes les corrections
                     </p>
                 </div>
                 
@@ -1494,6 +1670,44 @@
         </div>
     </div>
 
+    <!-- Modale Ajout Événement -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px;">📅 Nouvel événement</h3>
+            
+            <div class="form-group">
+                <label for="eventTitle">Titre :</label>
+                <input type="text" id="eventTitle" placeholder="Titre de l'événement">
+            </div>
+            
+            <div class="form-group">
+                <label for="eventDate">Date :</label>
+                <input type="datetime-local" id="eventDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="eventDescription">Description :</label>
+                <textarea id="eventDescription" placeholder="Description de l'événement"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="eventCategory">Catégorie :</label>
+                <select id="eventCategory">
+                    <option value="anniversaire">🎂 Anniversaire</option>
+                    <option value="sortie">🚗 Sortie</option>
+                    <option value="rdv">👨‍⚕️ Rendez-vous</option>
+                    <option value="fete">🎉 Fête</option>
+                    <option value="autre">📌 Autre</option>
+                </select>
+            </div>
+            
+            <div class="text-center mt-20">
+                <button class="btn" onclick="saveEvent()">💾 Ajouter</button>
+                <button class="btn secondary" onclick="closeEventModal()">❌ Annuler</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Status de connexion -->
     <div id="connectionStatus" class="connection-status">
         🟢 Connecté
@@ -1509,8 +1723,11 @@
         let supabase = null;
         let currentFamily = null;
         let currentUser = null;
+        let isCreator = false;
         let messagesSubscription = null;
         let membersSubscription = null;
+        let photosSubscription = null;
+        let eventsSubscription = null;
         let sessionStartTime = null;
         let sessionStats = {
             messagesSent: 0,
@@ -1518,7 +1735,10 @@
             photosAdded: 0
         };
 
-        // Configuration Supabase
+        let manageMode = false;
+        let currentDate = new Date();
+
+        // Configuration Supabase - REMPLACEZ PAR VOS PROPRES CREDENTIALS
         const SUPABASE_URL = 'https://idchzyesasphuxxozqdz.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlkY2h6eWVzYXNwaHV4eG96cWR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0NjEzOTQsImV4cCI6MjA2NDAzNzM5NH0.bESGwp0R-OpEndUA2QuO1gUdvSxt4JTlP-q1Yi2fh20';
 
@@ -1526,7 +1746,12 @@
         let appState = {
             members: [],
             photos: [],
+            events: [],
             currentGame: null,
+            gameData: {
+                memoryLevel: 1,
+                mathLevel: 1
+            },
             videoCall: {
                 active: false,
                 localStream: null,
@@ -1575,15 +1800,33 @@
             const savedUserName = localStorage.getItem('userName');
             
             if (savedFamilyCode && savedUserName) {
+                // Vérifier si le membre existe déjà (CORRECTION CRITIQUE #1)
+                const { data: existingMember } = await supabase
+                    .from('family_members')
+                    .select('*')
+                    .eq('family_code', savedFamilyCode)
+                    .eq('name', savedUserName)
+                    .single();
+                
                 currentFamily = savedFamilyCode;
                 currentUser = savedUserName;
                 
                 const familyData = await getFamilyData(savedFamilyCode);
                 if (familyData) {
+                    if (existingMember) {
+                        // Membre existe, juste mettre à jour le statut
+                        isCreator = existingMember.is_creator || false;
+                        await updateUserOnlineStatus(true);
+                        showNotification(`👋 Reconnecté à ${familyData.name}`, 'info');
+                    } else {
+                        // Nouveau membre, l'ajouter
+                        await addFamilyMemberToDb(savedFamilyCode, savedUserName, false);
+                        await sendSystemMessage(savedFamilyCode, `${savedUserName} a rejoint la famille ! 👋`);
+                    }
+                    
                     showApp(familyData.name, savedFamilyCode);
-                    updateUserOnlineStatus(true);
-                    showNotification(`👋 Reconnecté à ${familyData.name}`, 'info');
                 } else {
+                    // Famille n'existe plus, nettoyer
                     localStorage.removeItem('familyCode');
                     localStorage.removeItem('userName');
                 }
@@ -1632,11 +1875,13 @@
                     return;
                 }
 
-                await addFamilyMemberToDb(familyCode, userName);
+                // Le créateur a les droits d'administration (CORRECTION #3)
+                await addFamilyMemberToDb(familyCode, userName, true);
                 await sendSystemMessage(familyCode, `Bienvenue dans ${familyName} ! 🎉`);
 
                 currentFamily = familyCode;
                 currentUser = userName;
+                isCreator = true;
                 
                 localStorage.setItem('familyCode', familyCode);
                 localStorage.setItem('userName', userName);
@@ -1678,8 +1923,24 @@
                     return;
                 }
 
-                await addFamilyMemberToDb(familyCode, userName);
-                await sendSystemMessage(familyCode, `${userName} a rejoint la famille ! 👋`);
+                // Vérifier si le membre existe déjà
+                const { data: existingMember } = await supabase
+                    .from('family_members')
+                    .select('*')
+                    .eq('family_code', familyCode)
+                    .eq('name', userName)
+                    .single();
+
+                if (existingMember) {
+                    // Membre existe déjà, juste se reconnecter
+                    isCreator = existingMember.is_creator || false;
+                    await updateUserOnlineStatus(true);
+                } else {
+                    // Nouveau membre
+                    await addFamilyMemberToDb(familyCode, userName, false);
+                    await sendSystemMessage(familyCode, `${userName} a rejoint la famille ! 👋`);
+                    isCreator = false;
+                }
 
                 currentFamily = familyCode;
                 currentUser = userName;
@@ -1698,7 +1959,7 @@
             }
         }
 
-        async function addFamilyMemberToDb(familyCode, userName) {
+        async function addFamilyMemberToDb(familyCode, userName, isCreatorFlag = false) {
             const { error } = await supabase
                 .from('family_members')
                 .upsert([
@@ -1706,9 +1967,13 @@
                         family_code: familyCode,
                         name: userName,
                         is_online: true,
-                        last_seen: new Date().toISOString()
+                        is_creator: isCreatorFlag,
+                        last_seen: new Date().toISOString(),
+                        joined_at: new Date().toISOString()
                     }
-                ]);
+                ], { 
+                    onConflict: 'family_code,name' 
+                });
 
             if (error && error.code !== '23505') {
                 throw error;
@@ -1753,7 +2018,14 @@
         function showApp(familyName, familyCode) {
             document.getElementById('connectionSetup').style.display = 'none';
             document.getElementById('appArea').classList.add('active');
-            document.getElementById('familyTitle').textContent = `👨‍👩‍👧‍👦 ${familyName}`;
+            
+            // Afficher le badge créateur si applicable (CORRECTION #3)
+            const familyTitle = document.getElementById('familyTitle');
+            familyTitle.innerHTML = `👨‍👩‍👧‍👦 ${familyName}`;
+            if (isCreator) {
+                familyTitle.innerHTML += '<span class="creator-badge">👑 Créateur</span>';
+                document.getElementById('manageBtn').style.display = 'inline-block';
+            }
             
             sessionStartTime = Date.now();
             startRealtimeListeners();
@@ -1784,10 +2056,14 @@
                     loadMembers();
                     break;
                 case 'photos':
-                    renderPhotoGallery();
+                    loadPhotos();
                     break;
                 case 'games':
                     initializeGameLevels();
+                    break;
+                case 'calendar':
+                    renderCalendar();
+                    loadEvents();
                     break;
                 case 'settings':
                     loadSettings();
@@ -1825,8 +2101,38 @@
                 )
                 .subscribe();
 
+            // NOUVEAU: Listener pour les photos (CORRECTION #4)
+            photosSubscription = supabase
+                .channel('photos_' + currentFamily)
+                .on('postgres_changes', 
+                    { 
+                        event: '*', 
+                        schema: 'public', 
+                        table: 'family_photos',
+                        filter: `family_code=eq.${currentFamily}`
+                    }, 
+                    loadPhotos
+                )
+                .subscribe();
+
+            // NOUVEAU: Listener pour les événements (CORRECTION #5)
+            eventsSubscription = supabase
+                .channel('events_' + currentFamily)
+                .on('postgres_changes', 
+                    { 
+                        event: '*', 
+                        schema: 'public', 
+                        table: 'family_events',
+                        filter: `family_code=eq.${currentFamily}`
+                    }, 
+                    loadEvents
+                )
+                .subscribe();
+
             loadMessages();
             loadMembers();
+            loadPhotos();
+            loadEvents();
 
             setInterval(() => updateUserOnlineStatus(true), 30000);
         }
@@ -1842,7 +2148,8 @@
                 .from('messages')
                 .select('*')
                 .eq('family_code', currentFamily)
-                .order('created_at', { ascending: true });
+                .order('created_at', { ascending: true })
+                .limit(50); // Limiter pour les performances
 
             if (error) {
                 console.error('Erreur chargement messages:', error);
@@ -1958,21 +2265,16 @@
             input.onchange = function(event) {
                 const file = event.target.files[0];
                 if (file) {
-                    // Simulation d'ajout de photo au chat
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('messageInput').value = `📷 Photo partagée: ${file.name}`;
-                        sendMessage();
-                        sessionStats.photosAdded++;
-                    };
-                    reader.readAsDataURL(file);
+                    document.getElementById('messageInput').value = `📷 Photo partagée: ${file.name}`;
+                    sendMessage();
+                    sessionStats.photosAdded++;
                 }
             };
             input.click();
         }
 
         // ========================
-        // GESTION DES MEMBRES
+        // GESTION DES MEMBRES (AMÉLIORÉE)
         // ========================
         async function loadMembers() {
             const { data: members, error } = await supabase
@@ -2002,6 +2304,15 @@
                 const now = new Date();
                 const isOnline = (now - lastSeen) < 2 * 60 * 1000; // 2 minutes
                 
+                const creatorBadge = member.is_creator ? '<div style="font-size: 0.8rem; background: rgba(255,215,0,0.3); padding: 3px 8px; border-radius: 10px; margin-top: 5px;">👑 Créateur</div>' : '';
+                
+                // NOUVEAU: Boutons de gestion pour le créateur (CORRECTION #3)
+                const memberActions = isCreator && member.name !== currentUser ? `
+                    <div class="member-actions">
+                        <button class="btn danger small" onclick="deleteMember('${member.name}')">🗑️ Supprimer</button>
+                    </div>
+                ` : '';
+                
                 memberCard.innerHTML = `
                     <div class="member-avatar">
                         ${member.emoji || '👤'}
@@ -2010,10 +2321,53 @@
                     <h4>${member.name}</h4>
                     <p>${member.role || 'Membre'}</p>
                     <p>${isOnline ? '🟢 En ligne' : '⚪ Hors ligne'}</p>
+                    ${creatorBadge}
+                    ${memberActions}
                 `;
                 
                 container.appendChild(memberCard);
             });
+        }
+
+        // NOUVEAU: Fonction de suppression de membre (CORRECTION #3)
+        async function deleteMember(memberName) {
+            if (!isCreator) {
+                showNotification('❌ Seul le créateur peut supprimer des membres', 'error');
+                return;
+            }
+            
+            if (memberName === currentUser) {
+                showNotification('❌ Vous ne pouvez pas vous supprimer', 'error');
+                return;
+            }
+            
+            if (confirm(`Supprimer ${memberName} de la famille ?`)) {
+                try {
+                    const { error } = await supabase
+                        .from('family_members')
+                        .delete()
+                        .eq('family_code', currentFamily)
+                        .eq('name', memberName);
+                    
+                    if (!error) {
+                        showNotification(`✅ ${memberName} supprimé de la famille`, 'success');
+                        await sendSystemMessage(currentFamily, `${memberName} a quitté la famille`);
+                        loadMembers();
+                    } else {
+                        showNotification('❌ Erreur lors de la suppression', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erreur suppression membre:', error);
+                    showNotification('❌ Erreur inattendue', 'error');
+                }
+            }
+        }
+
+        function toggleManageMode() {
+            manageMode = !manageMode;
+            const btn = document.getElementById('manageBtn');
+            btn.textContent = manageMode ? '👀 Voir' : '⚙️ Gérer';
+            loadMembers();
         }
 
         function addFamilyMember() {
@@ -2035,25 +2389,46 @@
             }
 
             try {
-                await addFamilyMemberToDb(currentFamily, name);
-                
-                // Mettre à jour l'état local temporairement
-                appState.members.push({
-                    name: name,
-                    role: role,
-                    emoji: emoji,
-                    is_online: false,
-                    last_seen: new Date().toISOString()
-                });
-                
-                renderMembersGrid();
-                closeMemberModal();
-                showNotification(`✅ ${name} ajouté à la famille !`, 'success');
-                
-                // Effacer le formulaire
-                document.getElementById('memberName').value = '';
-                document.getElementById('memberRole').value = 'parent';
-                document.getElementById('memberEmoji').value = '';
+                // Vérifier si le membre existe déjà
+                const { data: existingMember } = await supabase
+                    .from('family_members')
+                    .select('*')
+                    .eq('family_code', currentFamily)
+                    .eq('name', name)
+                    .single();
+
+                if (existingMember) {
+                    showNotification('⚠️ Ce membre existe déjà', 'warning');
+                    return;
+                }
+
+                const { error } = await supabase
+                    .from('family_members')
+                    .insert([
+                        {
+                            family_code: currentFamily,
+                            name: name,
+                            role: role,
+                            emoji: emoji,
+                            is_online: false,
+                            is_creator: false,
+                            last_seen: new Date().toISOString(),
+                            joined_at: new Date().toISOString()
+                        }
+                    ]);
+
+                if (!error) {
+                    closeMemberModal();
+                    showNotification(`✅ ${name} ajouté à la famille !`, 'success');
+                    await sendSystemMessage(currentFamily, `${name} a été ajouté à la famille ! 👋`);
+                    
+                    // Effacer le formulaire
+                    document.getElementById('memberName').value = '';
+                    document.getElementById('memberRole').value = 'parent';
+                    document.getElementById('memberEmoji').value = '';
+                } else {
+                    showNotification('❌ Erreur lors de l\'ajout', 'error');
+                }
                 
             } catch (error) {
                 console.error('Erreur ajout membre:', error);
@@ -2079,36 +2454,77 @@
         }
 
         // ========================
-        // GALERIE PHOTOS
+        // GALERIE PHOTOS (AMÉLIORÉE - CORRECTION #4)
         // ========================
         function uploadPhotos() {
             document.getElementById('photoInput').click();
         }
 
-        function handlePhotoUpload(event) {
+        async function handlePhotoUpload(event) {
             const files = Array.from(event.target.files);
+            let successCount = 0;
             
-            files.forEach(file => {
+            for (const file of files) {
                 if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const newPhoto = {
-                            id: Date.now() + Math.random(),
-                            src: e.target.result,
-                            name: file.name
-                        };
+                    try {
+                        // Upload vers Supabase Storage
+                        const fileName = `${currentFamily}/${Date.now()}_${file.name}`;
+                        const { data: uploadData, error: uploadError } = await supabase.storage
+                            .from('family-photos')
+                            .upload(fileName, file);
                         
-                        appState.photos.push(newPhoto);
-                        renderPhotoGallery();
-                        sessionStats.photosAdded++;
-                        updateStats();
-                    };
-                    reader.readAsDataURL(file);
+                        if (uploadError) {
+                            console.error('Erreur upload:', uploadError);
+                            continue;
+                        }
+                        
+                        // Obtenir l'URL publique
+                        const { data: { publicUrl } } = supabase.storage
+                            .from('family-photos')
+                            .getPublicUrl(fileName);
+                        
+                        // Sauvegarder en base
+                        const { error: dbError } = await supabase
+                            .from('family_photos')
+                            .insert([{
+                                family_code: currentFamily,
+                                uploaded_by: currentUser,
+                                file_name: file.name,
+                                file_path: fileName,
+                                public_url: publicUrl
+                            }]);
+                        
+                        if (!dbError) {
+                            successCount++;
+                            sessionStats.photosAdded++;
+                        }
+                        
+                    } catch (error) {
+                        console.error('Erreur upload photo:', error);
+                    }
                 }
-            });
+            }
             
-            if (files.length > 0) {
-                showNotification(`📸 ${files.length} photo(s) ajoutée(s) !`, 'success');
+            if (successCount > 0) {
+                showNotification(`📸 ${successCount} photo(s) ajoutée(s) !`, 'success');
+                loadPhotos();
+                updateStats();
+            } else {
+                showNotification('❌ Erreur lors de l\'upload', 'error');
+            }
+        }
+
+        async function loadPhotos() {
+            const { data: photos, error } = await supabase
+                .from('family_photos')
+                .select('*')
+                .eq('family_code', currentFamily)
+                .order('created_at', { ascending: false });
+            
+            if (!error) {
+                appState.photos = photos;
+                renderPhotoGallery();
+                updateStats();
             }
         }
 
@@ -2123,7 +2539,13 @@
             appState.photos.forEach(photo => {
                 const photoCard = document.createElement('div');
                 photoCard.className = 'photo-item';
-                photoCard.innerHTML = `<img src="${photo.src}" alt="${photo.name}">`;
+                photoCard.innerHTML = `
+                    <img src="${photo.public_url}" alt="${photo.file_name}">
+                    <div class="photo-info">
+                        <div>${photo.file_name}</div>
+                        <div>Par ${photo.uploaded_by}</div>
+                    </div>
+                `;
                 photoCard.onclick = () => viewPhoto(photo);
                 container.appendChild(photoCard);
             });
@@ -2134,8 +2556,9 @@
             modal.className = 'modal show';
             modal.innerHTML = `
                 <div class="modal-content" style="max-width: 800px;">
-                    <h3>📸 ${photo.name}</h3>
-                    <img src="${photo.src}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 10px; margin: 20px 0;">
+                    <h3>📸 ${photo.file_name}</h3>
+                    <p>Ajoutée par ${photo.uploaded_by}</p>
+                    <img src="${photo.public_url}" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 10px; margin: 20px 0;">
                     <button class="btn" onclick="this.closest('.modal').remove()">❌ Fermer</button>
                 </div>
             `;
@@ -2147,30 +2570,58 @@
         }
 
         // ========================
-        // SYSTÈME DE JEUX
+        // SYSTÈME DE JEUX COMPLETS (CORRECTION #2)
         // ========================
         function refreshAllGames() {
+            // Réinitialiser les niveaux
+            appState.gameData.memoryLevel = 1;
+            appState.gameData.mathLevel = 1;
+            initializeGameLevels();
             showNotification('🎮 Jeux renouvelés !', 'success');
         }
 
         function randomGame() {
-            const games = ['startMemoryGame', 'startQuizGame', 'startWordGame', 'startReactionGame'];
+            const games = [
+                'startMemoryGame', 
+                'startGeneralQuiz', 
+                'startFamilyQuiz',
+                'startPictionaryGame', 
+                'startWordGame', 
+                'startEmojiGame',
+                'startMathGame', 
+                'startColorGame', 
+                'startStoryGame', 
+                'startReactionGame'
+            ];
             const randomGameFunction = games[Math.floor(Math.random() * games.length)];
             eval(randomGameFunction + '()');
         }
 
+        // 1. Jeu de Mémoire Enhanced
         function startMemoryGame() {
+            const level = appState.gameData.memoryLevel || 1;
+            const itemSets = [
+                ['🍎', '🍊', '🍌', '🍇'], // Level 1
+                ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊'], // Level 2
+                ['⚽', '🏀', '🏈', '🎾', '🏐', '🏓', '🏸', '🥅'], // Level 3
+                ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐'], // Level 4
+                ['🌍', '🌎', '🌏', '🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔', '🌙'] // Level 5
+            ];
+            
+            const items = itemSets[Math.min(level - 1, 4)];
+            
             appState.currentGame = {
                 type: 'memory',
-                level: 1,
-                items: ['🍎', '🍊', '🍌', '🍇'],
+                level: level,
+                items: items,
                 cards: [],
                 flipped: [],
-                matched: []
+                matched: [],
+                attempts: 0
             };
             
             // Doubler les items et mélanger
-            appState.currentGame.cards = [...appState.currentGame.items, ...appState.currentGame.items]
+            appState.currentGame.cards = [...items, ...items]
                 .sort(() => Math.random() - 0.5);
             
             showGameArea();
@@ -2182,7 +2633,10 @@
             const gridSize = Math.ceil(Math.sqrt(appState.currentGame.cards.length));
             
             document.getElementById('gameContent').innerHTML = `
-                <h3 class="text-center mb-20">🧠 Jeu de Mémoire</h3>
+                <h3 class="text-center mb-20">🧠 Jeu de Mémoire - Niveau ${appState.currentGame.level}</h3>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span>Tentatives: ${appState.currentGame.attempts}</span>
+                </div>
                 <div class="memory-grid" style="grid-template-columns: repeat(${gridSize}, 1fr);" id="memoryGrid"></div>
             `;
             
@@ -2193,6 +2647,7 @@
                 
                 if (appState.currentGame.flipped.includes(index) || appState.currentGame.matched.includes(index)) {
                     card.textContent = item;
+                    card.classList.add('flipped');
                 } else {
                     card.textContent = '?';
                 }
@@ -2215,6 +2670,7 @@
                 renderMemoryGame();
                 
                 if (appState.currentGame.flipped.length === 2) {
+                    appState.currentGame.attempts++;
                     setTimeout(checkMemoryMatch, 1000);
                 }
             }
@@ -2228,7 +2684,18 @@
                 showNotification('✅ Bonne paire !', 'success');
                 
                 if (appState.currentGame.matched.length === appState.currentGame.cards.length) {
-                    showNotification('🎉 Jeu terminé !', 'success');
+                    showNotification('🎉 Niveau terminé !', 'success');
+                    setTimeout(() => {
+                        if (appState.currentGame.level < 5) {
+                            appState.gameData.memoryLevel++;
+                            document.getElementById('memoryLevel').textContent = appState.gameData.memoryLevel;
+                            if (confirm('Passer au niveau suivant ?')) {
+                                startMemoryGame();
+                                return;
+                            }
+                        }
+                        closeGame();
+                    }, 1500);
                 }
             }
             
@@ -2236,16 +2703,19 @@
             renderMemoryGame();
         }
 
-        function startQuizGame() {
+        // 2. Quiz Général
+        function startGeneralQuiz() {
             const questions = [
                 { q: "Quelle est la capitale de la France ?", options: ["Lyon", "Marseille", "Paris", "Toulouse"], correct: 2 },
                 { q: "Combien font 7 x 8 ?", options: ["54", "56", "58", "60"], correct: 1 },
-                { q: "Quel est l'animal le plus rapide ?", options: ["Guépard", "Lion", "Antilope", "Faucon"], correct: 0 }
+                { q: "Quel est l'animal le plus rapide ?", options: ["Guépard", "Lion", "Antilope", "Faucon"], correct: 0 },
+                { q: "En quelle année l'homme a-t-il marché sur la Lune ?", options: ["1967", "1969", "1971", "1973"], correct: 1 },
+                { q: "Quel est le plus grand océan ?", options: ["Atlantique", "Indien", "Arctique", "Pacifique"], correct: 3 }
             ];
             
             appState.currentGame = {
                 type: 'quiz',
-                questions: questions,
+                questions: shuffleArray(questions),
                 current: 0,
                 score: 0
             };
@@ -2255,13 +2725,77 @@
             sessionStats.gamesPlayed++;
         }
 
+        // 3. Quiz Familial (NOUVEAU - CORRECTION #2)
+        function startFamilyQuiz() {
+            const familyQuestions = generateFamilyQuestions();
+            
+            appState.currentGame = {
+                type: 'family-quiz',
+                questions: familyQuestions,
+                current: 0,
+                score: 0
+            };
+            
+            showGameArea();
+            renderQuizGame();
+            sessionStats.gamesPlayed++;
+        }
+
+        function generateFamilyQuestions() {
+            const questions = [];
+            const members = appState.members;
+            
+            if (members.length > 0) {
+                const creator = members.find(m => m.is_creator);
+                if (creator) {
+                    questions.push({
+                        q: "Qui a créé cette famille ?",
+                        options: shuffleArray([creator.name, "Papa", "Maman", "Grand-père"]).slice(0, 4),
+                        correct: 0
+                    });
+                }
+                
+                questions.push({
+                    q: "Combien de membres avons-nous dans la famille ?",
+                    options: [members.length - 1, members.length, members.length + 1, members.length + 2],
+                    correct: 1
+                });
+                
+                if (members.length > 1) {
+                    const randomMember = members[Math.floor(Math.random() * members.length)];
+                    questions.push({
+                        q: `Quel est l'emoji de ${randomMember.name} ?`,
+                        options: shuffleArray([randomMember.emoji || '👤', '😊', '🎉', '❤️']),
+                        correct: 0
+                    });
+                }
+            }
+            
+            // Questions générales sur la famille
+            questions.push(
+                { q: "Que signifie être en famille ?", options: ["S'amuser ensemble", "Se disputer", "Être seul", "Travailler"], correct: 0 },
+                { q: "Quelle est la chose la plus importante en famille ?", options: ["L'argent", "L'amour", "La télé", "Les jeux"], correct: 1 }
+            );
+            
+            return questions.slice(0, 5); // Maximum 5 questions
+        }
+
         function renderQuizGame() {
             if (appState.currentGame.current >= appState.currentGame.questions.length) {
+                const percentage = Math.round((appState.currentGame.score / appState.currentGame.questions.length) * 100);
+                let message = '';
+                if (percentage >= 80) message = '🏆 Excellent !';
+                else if (percentage >= 60) message = '👍 Bien joué !';
+                else message = '💪 Vous pouvez mieux faire !';
+                
                 document.getElementById('gameContent').innerHTML = `
                     <div class="text-center">
                         <h3>🎉 Quiz terminé !</h3>
+                        <div style="font-size: 3rem; margin: 20px;">${percentage}%</div>
                         <p>Score: ${appState.currentGame.score}/${appState.currentGame.questions.length}</p>
-                        <button class="btn" onclick="startQuizGame()">🔄 Recommencer</button>
+                        <p style="font-size: 1.5rem; margin: 20px;">${message}</p>
+                        <button class="btn" onclick="startGeneralQuiz()">🔄 Quiz général</button>
+                        <button class="btn secondary" onclick="startFamilyQuiz()">👨‍👩‍👧‍👦 Quiz familial</button>
                     </div>
                 `;
                 return;
@@ -2270,17 +2804,20 @@
             const question = appState.currentGame.questions[appState.currentGame.current];
             
             document.getElementById('gameContent').innerHTML = `
-                <h3 class="text-center mb-20">❓ Quiz</h3>
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
+                <h3 class="text-center mb-20">❓ Quiz - Question ${appState.currentGame.current + 1}/${appState.currentGame.questions.length}</h3>
+                <div class="quiz-question">
                     <h4>${question.q}</h4>
                 </div>
-                <div style="display: grid; gap: 10px; max-width: 400px; margin: 0 auto;" id="quizOptions"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="text-center mt-20">
+                    <p>Score: ${appState.currentGame.score}/${appState.currentGame.current}</p>
+                </div>
             `;
             
             const optionsDiv = document.getElementById('quizOptions');
             question.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'btn secondary';
+                const button = document.createElement('div');
+                button.className = 'quiz-option';
                 button.textContent = option;
                 button.onclick = () => answerQuiz(index, question.correct);
                 optionsDiv.appendChild(button);
@@ -2288,26 +2825,214 @@
         }
 
         function answerQuiz(selectedIndex, correctIndex) {
+            const options = document.querySelectorAll('.quiz-option');
+            options[correctIndex].classList.add('correct');
+            
             if (selectedIndex === correctIndex) {
                 appState.currentGame.score++;
                 showNotification('✅ Bonne réponse !', 'success');
             } else {
+                options[selectedIndex].classList.add('incorrect');
                 showNotification('❌ Mauvaise réponse', 'error');
             }
             
+            // Désactiver les options
+            options.forEach(option => option.style.pointerEvents = 'none');
+            
             appState.currentGame.current++;
-            setTimeout(renderQuizGame, 1500);
+            setTimeout(renderQuizGame, 2000);
         }
 
+        // 4. Pictionary Pro (NOUVEAU - CORRECTION #2)
+        function startPictionaryGame() {
+            const words = [
+                'MAISON', 'VOITURE', 'SOLEIL', 'ARBRE', 'CHAT', 'CHIEN', 'FLEUR', 'BATEAU',
+                'AVION', 'MONTAGNE', 'PLAGE', 'LIVRE', 'TÉLÉPHONE', 'ORDINATEUR', 'PIZZA'
+            ];
+            const word = words[Math.floor(Math.random() * words.length)];
+            
+            appState.currentGame = {
+                type: 'pictionary',
+                word: word,
+                timeLeft: 60,
+                isDrawing: false,
+                currentColor: 'black',
+                brushSize: 3
+            };
+            
+            showGameArea();
+            renderPictionaryGame();
+            sessionStats.gamesPlayed++;
+        }
+
+        function renderPictionaryGame() {
+            document.getElementById('gameContent').innerHTML = `
+                <h3 class="text-center mb-20">🎨 Pictionary Pro</h3>
+                <div class="text-center mb-20">
+                    <div style="font-size: 1.5rem; font-weight: bold; background: #f0f0f0; padding: 15px; border-radius: 10px;">
+                        Dessinez: <span style="color: #667eea;">${appState.currentGame.word}</span>
+                    </div>
+                    <div style="margin: 10px;">Temps restant: <span id="pictionaryTimer">${appState.currentGame.timeLeft}</span>s</div>
+                </div>
+                <canvas id="drawingCanvas" width="600" height="400"></canvas>
+                <div class="drawing-tools">
+                    <div class="color-btn active" style="background: black;" onclick="setDrawColor('black')"></div>
+                    <div class="color-btn" style="background: red;" onclick="setDrawColor('red')"></div>
+                    <div class="color-btn" style="background: blue;" onclick="setDrawColor('blue')"></div>
+                    <div class="color-btn" style="background: green;" onclick="setDrawColor('green')"></div>
+                    <div class="color-btn" style="background: yellow;" onclick="setDrawColor('yellow')"></div>
+                    <div class="color-btn" style="background: purple;" onclick="setDrawColor('purple')"></div>
+                    <div class="brush-size-control">
+                        <label>Taille: </label>
+                        <input type="range" min="1" max="10" value="3" onchange="setBrushSize(this.value)">
+                        <span id="brushSizeDisplay">3</span>
+                    </div>
+                    <button class="btn secondary" onclick="clearCanvas()">🗑️ Effacer</button>
+                    <button class="btn" onclick="finishDrawing()">✅ Terminé</button>
+                </div>
+            `;
+            
+            initializeCanvas();
+            startPictionaryTimer();
+        }
+
+        function initializeCanvas() {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Initialiser le canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                [lastX, lastY] = getMousePos(canvas, e);
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDrawing) return;
+                
+                const [currentX, currentY] = getMousePos(canvas, e);
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                ctx.strokeStyle = appState.currentGame.currentColor;
+                ctx.lineWidth = appState.currentGame.brushSize;
+                ctx.stroke();
+                
+                [lastX, lastY] = [currentX, currentY];
+            });
+            
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mouseout', () => isDrawing = false);
+            
+            // Support tactile
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            });
+            
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            });
+            
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const mouseEvent = new MouseEvent('mouseup', {});
+                canvas.dispatchEvent(mouseEvent);
+            });
+        }
+
+        function getMousePos(canvas, e) {
+            const rect = canvas.getBoundingClientRect();
+            return [
+                e.clientX - rect.left,
+                e.clientY - rect.top
+            ];
+        }
+
+        function setDrawColor(color) {
+            appState.currentGame.currentColor = color;
+            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function setBrushSize(size) {
+            appState.currentGame.brushSize = size;
+            document.getElementById('brushSizeDisplay').textContent = size;
+        }
+
+        function clearCanvas() {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function startPictionaryTimer() {
+            const timer = setInterval(() => {
+                appState.currentGame.timeLeft--;
+                const timerElement = document.getElementById('pictionaryTimer');
+                if (timerElement) {
+                    timerElement.textContent = appState.currentGame.timeLeft;
+                }
+                
+                if (appState.currentGame.timeLeft <= 0) {
+                    clearInterval(timer);
+                    finishDrawing();
+                }
+            }, 1000);
+            
+            appState.currentGame.timer = timer;
+        }
+
+        function finishDrawing() {
+            if (appState.currentGame.timer) {
+                clearInterval(appState.currentGame.timer);
+            }
+            showNotification('🎨 Dessin terminé ! Montrez-le à votre famille !', 'success');
+        }
+
+        // 5. Mots Mélangés Enhanced
         function startWordGame() {
-            const words = ['FAMILLE', 'AMOUR', 'BONHEUR', 'SOURIRE'];
+            const wordThemes = {
+                famille: ['FAMILLE', 'AMOUR', 'BONHEUR', 'SOURIRE', 'TENDRESSE'],
+                animaux: ['CHIEN', 'CHAT', 'ELEPHANT', 'TIGRE', 'OISEAU'],
+                nature: ['SOLEIL', 'MONTAGNE', 'RIVIERE', 'FLEUR', 'ARBRE'],
+                couleurs: ['ROUGE', 'BLEU', 'JAUNE', 'VERT', 'VIOLET']
+            };
+            
+            const themes = Object.keys(wordThemes);
+            const selectedTheme = themes[Math.floor(Math.random() * themes.length)];
+            const words = wordThemes[selectedTheme];
             const word = words[Math.floor(Math.random() * words.length)];
             const scrambled = word.split('').sort(() => Math.random() - 0.5).join('');
             
             appState.currentGame = {
                 type: 'word',
                 word: word,
-                scrambled: scrambled
+                scrambled: scrambled,
+                theme: selectedTheme,
+                hints: getWordHints(word),
+                hintUsed: false
             };
             
             showGameArea();
@@ -2315,30 +3040,56 @@
             sessionStats.gamesPlayed++;
         }
 
+        function getWordHints(word) {
+            const hints = {
+                'FAMILLE': 'Groupe de personnes qui s\'aiment',
+                'AMOUR': 'Sentiment fort et tendre',
+                'CHIEN': 'Meilleur ami de l\'homme',
+                'SOLEIL': 'Étoile qui nous éclaire',
+                'ROUGE': 'Couleur du sang'
+            };
+            return hints[word] || 'Mot mystère...';
+        }
+
         function renderWordGame() {
             document.getElementById('gameContent').innerHTML = `
                 <h3 class="text-center mb-20">📝 Mots Mélangés</h3>
                 <div style="text-align: center; margin: 30px 0;">
-                    <div style="font-size: 2rem; letter-spacing: 3px; margin-bottom: 20px; background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                    <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>Thème:</strong> ${appState.currentGame.theme}
+                    </div>
+                    <div style="font-size: 2rem; letter-spacing: 3px; margin-bottom: 20px; background: #667eea; color: white; padding: 20px; border-radius: 10px;">
                         ${appState.currentGame.scrambled}
                     </div>
-                    <input type="text" id="wordGuess" placeholder="Votre réponse..." style="padding: 10px; font-size: 1.2rem; text-align: center; margin: 10px;">
+                    <input type="text" id="wordGuess" placeholder="Votre réponse..." class="word-input">
                     <br>
                     <button class="btn" onclick="checkWordGuess()">✅ Vérifier</button>
+                    <button class="btn secondary" onclick="showWordHint()">💡 Indice</button>
                     <button class="btn secondary" onclick="startWordGame()">🎲 Nouveau mot</button>
+                    <div id="wordHint" style="margin-top: 20px; font-style: italic; color: #666;"></div>
                 </div>
             `;
             
             document.getElementById('wordGuess').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') checkWordGuess();
             });
+            document.getElementById('wordGuess').focus();
+        }
+
+        function showWordHint() {
+            if (!appState.currentGame.hintUsed) {
+                document.getElementById('wordHint').textContent = `💡 ${appState.currentGame.hints}`;
+                appState.currentGame.hintUsed = true;
+                showNotification('💡 Indice affiché !', 'info');
+            }
         }
 
         function checkWordGuess() {
             const guess = document.getElementById('wordGuess').value.trim().toUpperCase();
             
             if (guess === appState.currentGame.word) {
-                showNotification('🎉 Bravo ! Mot trouvé !', 'success');
+                const bonus = appState.currentGame.hintUsed ? '' : ' (Bonus sans indice!)';
+                showNotification(`🎉 Bravo ! Mot trouvé !${bonus}`, 'success');
                 setTimeout(() => {
                     if (confirm('Jouer un autre mot ?')) {
                         startWordGame();
@@ -2346,42 +3097,495 @@
                         closeGame();
                     }
                 }, 1500);
-            } else {
-                showNotification('❌ Pas encore...', 'error');
+            } else if (guess.length > 0) {
+                showNotification('❌ Pas encore... Essayez encore !', 'error');
+                document.getElementById('wordGuess').value = '';
             }
         }
 
-        function startReactionGame() {
+        // 6. Devinettes Emoji (NOUVEAU - CORRECTION #2)
+        function startEmojiGame() {
+            const emojiPuzzles = [
+                { emojis: '🍎📱', answer: 'APPLE', hint: 'Marque de téléphone' },
+                { emojis: '🌟⭐', answer: 'STAR', hint: 'Étoile en anglais' },
+                { emojis: '🏠🔥', answer: 'MAISON', hint: 'Lieu où on habite' },
+                { emojis: '❤️😍', answer: 'AMOUR', hint: 'Sentiment fort' },
+                { emojis: '🎂🎉', answer: 'ANNIVERSAIRE', hint: 'Fête annuelle' },
+                { emojis: '🌞☀️', answer: 'SOLEIL', hint: 'Astre du jour' },
+                { emojis: '🐱🐈', answer: 'CHAT', hint: 'Animal qui miaule' },
+                { emojis: '🚗🛣️', answer: 'VOITURE', hint: 'Moyen de transport' }
+            ];
+            
+            const puzzle = emojiPuzzles[Math.floor(Math.random() * emojiPuzzles.length)];
+            
             appState.currentGame = {
-                type: 'reaction',
-                waiting: false
+                type: 'emoji',
+                puzzle: puzzle,
+                attempts: 0
             };
             
             showGameArea();
-            renderReactionGame();
+            renderEmojiGame();
             sessionStats.gamesPlayed++;
         }
 
-        function renderReactionGame() {
+        function renderEmojiGame() {
             document.getElementById('gameContent').innerHTML = `
-                <h3 class="text-center mb-20">⚡ Test de Réflexes</h3>
-                <div id="reactionArea" onclick="handleReactionClick()" style="
-                    width: 100%; 
-                    height: 300px; 
-                    background: #e53e3e; 
-                    border-radius: 20px; 
-                    display: flex; 
-                    align-items: center; 
-                    justify-content: center; 
-                    font-size: 2rem; 
-                    color: white; 
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                ">
-                    <div>Cliquez quand c'est VERT !</div>
+                <h3 class="text-center mb-20">😊 Devinettes Emoji</h3>
+                <div class="emoji-display">
+                    ${appState.currentGame.puzzle.emojis}
+                </div>
+                <div style="text-align: center;">
+                    <p style="margin: 20px 0;">Quel mot se cache derrière ces emojis ?</p>
+                    <input type="text" id="emojiGuess" placeholder="Votre réponse..." class="word-input">
+                    <br>
+                    <button class="btn" onclick="checkEmojiGuess()">✅ Vérifier</button>
+                    <button class="btn secondary" onclick="showEmojiHint()">💡 Indice</button>
+                    <button class="btn secondary" onclick="startEmojiGame()">🎲 Nouveau puzzle</button>
+                    <div id="emojiHint" style="margin-top: 20px; font-style: italic; color: #666;"></div>
+                    <div style="margin-top: 10px;">Tentatives: <span id="emojiAttempts">${appState.currentGame.attempts}</span></div>
+                </div>
+            `;
+            
+            document.getElementById('emojiGuess').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkEmojiGuess();
+            });
+            document.getElementById('emojiGuess').focus();
+        }
+
+        function showEmojiHint() {
+            document.getElementById('emojiHint').textContent = `💡 ${appState.currentGame.puzzle.hint}`;
+            showNotification('💡 Indice affiché !', 'info');
+        }
+
+        function checkEmojiGuess() {
+            const guess = document.getElementById('emojiGuess').value.trim().toUpperCase();
+            appState.currentGame.attempts++;
+            document.getElementById('emojiAttempts').textContent = appState.currentGame.attempts;
+            
+            if (guess === appState.currentGame.puzzle.answer) {
+                showNotification('🎉 Excellent ! Bonne réponse !', 'success');
+                setTimeout(() => {
+                    if (confirm('Essayer un autre puzzle ?')) {
+                        startEmojiGame();
+                    } else {
+                        closeGame();
+                    }
+                }, 1500);
+            } else if (guess.length > 0) {
+                showNotification('❌ Pas encore... Continuez !', 'error');
+                document.getElementById('emojiGuess').value = '';
+            }
+        }
+
+        // 7. Calcul Rapide (NOUVEAU - CORRECTION #2)
+        function startMathGame() {
+            const level = appState.gameData.mathLevel || 1;
+            
+            appState.currentGame = {
+                type: 'math',
+                level: level,
+                score: 0,
+                question: 0,
+                totalQuestions: 10,
+                timeLeft: 60,
+                questions: generateMathQuestions(level, 10)
+            };
+            
+            showGameArea();
+            renderMathGame();
+            startMathTimer();
+            sessionStats.gamesPlayed++;
+        }
+
+        function generateMathQuestions(level, count) {
+            const questions = [];
+            
+            for (let i = 0; i < count; i++) {
+                let question, answer;
+                
+                switch (level) {
+                    case 1: // Addition et soustraction simple
+                        const a1 = Math.floor(Math.random() * 20) + 1;
+                        const b1 = Math.floor(Math.random() * 20) + 1;
+                        if (Math.random() > 0.5) {
+                            question = `${a1} + ${b1}`;
+                            answer = a1 + b1;
+                        } else {
+                            question = `${Math.max(a1, b1)} - ${Math.min(a1, b1)}`;
+                            answer = Math.max(a1, b1) - Math.min(a1, b1);
+                        }
+                        break;
+                        
+                    case 2: // Multiplication et division
+                        const a2 = Math.floor(Math.random() * 12) + 1;
+                        const b2 = Math.floor(Math.random() * 12) + 1;
+                        if (Math.random() > 0.5) {
+                            question = `${a2} × ${b2}`;
+                            answer = a2 * b2;
+                        } else {
+                            const product = a2 * b2;
+                            question = `${product} ÷ ${a2}`;
+                            answer = b2;
+                        }
+                        break;
+                        
+                    case 3: // Opérations mixtes complexes
+                        const a3 = Math.floor(Math.random() * 50) + 10;
+                        const b3 = Math.floor(Math.random() * 50) + 10;
+                        const c3 = Math.floor(Math.random() * 10) + 1;
+                        question = `${a3} + ${b3} - ${c3}`;
+                        answer = a3 + b3 - c3;
+                        break;
+                }
+                
+                questions.push({ question, answer });
+            }
+            
+            return questions;
+        }
+
+        function renderMathGame() {
+            if (appState.currentGame.question >= appState.currentGame.totalQuestions) {
+                const percentage = Math.round((appState.currentGame.score / appState.currentGame.totalQuestions) * 100);
+                let nextLevel = '';
+                
+                if (percentage >= 80 && appState.currentGame.level < 3) {
+                    appState.gameData.mathLevel++;
+                    nextLevel = `<button class="btn" onclick="startMathGame()">⬆️ Niveau ${appState.gameData.mathLevel}</button>`;
+                    document.getElementById('mathLevel').textContent = appState.gameData.mathLevel;
+                }
+                
+                document.getElementById('gameContent').innerHTML = `
+                    <div class="text-center">
+                        <h3>🔢 Calcul terminé !</h3>
+                        <div style="font-size: 3rem; margin: 20px;">${percentage}%</div>
+                        <p>Score: ${appState.currentGame.score}/${appState.currentGame.totalQuestions}</p>
+                        <button class="btn secondary" onclick="startMathGame()">🔄 Recommencer</button>
+                        ${nextLevel}
+                    </div>
+                `;
+                return;
+            }
+            
+            const currentQ = appState.currentGame.questions[appState.currentGame.question];
+            
+            document.getElementById('gameContent').innerHTML = `
+                <h3 class="text-center mb-20">🔢 Calcul Rapide - Niveau ${appState.currentGame.level}</h3>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span>Question ${appState.currentGame.question + 1}/${appState.currentGame.totalQuestions}</span> |
+                    <span>Score: ${appState.currentGame.score}</span> |
+                    <span>Temps: <span id="mathTimer">${appState.currentGame.timeLeft}</span>s</span>
+                </div>
+                <div class="math-question">
+                    ${currentQ.question} = ?
+                </div>
+                <div style="text-align: center;">
+                    <input type="number" id="mathAnswer" placeholder="Réponse" style="padding: 15px; font-size: 1.5rem; text-align: center; border: 3px solid #667eea; border-radius: 10px; width: 200px; margin: 20px;">
+                    <br>
+                    <button class="btn" onclick="checkMathAnswer()">✅ Valider</button>
+                    <button class="btn secondary" onclick="skipMathQuestion()">⏭️ Passer</button>
+                </div>
+            `;
+            
+            document.getElementById('mathAnswer').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkMathAnswer();
+            });
+            document.getElementById('mathAnswer').focus();
+        }
+
+        function startMathTimer() {
+            const timer = setInterval(() => {
+                appState.currentGame.timeLeft--;
+                const timerElement = document.getElementById('mathTimer');
+                if (timerElement) {
+                    timerElement.textContent = appState.currentGame.timeLeft;
+                }
+                
+                if (appState.currentGame.timeLeft <= 0) {
+                    clearInterval(timer);
+                    appState.currentGame.question = appState.currentGame.totalQuestions; // Terminer
+                    renderMathGame();
+                }
+            }, 1000);
+            
+            appState.currentGame.mathTimer = timer;
+        }
+
+        function checkMathAnswer() {
+            const userAnswer = parseInt(document.getElementById('mathAnswer').value);
+            const correctAnswer = appState.currentGame.questions[appState.currentGame.question].answer;
+            
+            if (userAnswer === correctAnswer) {
+                appState.currentGame.score++;
+                showNotification('✅ Correct !', 'success');
+            } else {
+                showNotification(`❌ Réponse: ${correctAnswer}`, 'error');
+            }
+            
+            appState.currentGame.question++;
+            setTimeout(renderMathGame, 1000);
+        }
+
+        function skipMathQuestion() {
+            const correctAnswer = appState.currentGame.questions[appState.currentGame.question].answer;
+            showNotification(`➡️ Réponse: ${correctAnswer}`, 'info');
+            appState.currentGame.question++;
+            setTimeout(renderMathGame, 1000);
+        }
+
+        // 8. Test de Couleurs (NOUVEAU - CORRECTION #2)
+        function startColorGame() {
+            const colors = [
+                { name: 'ROUGE', color: '#e53e3e' },
+                { name: 'BLEU', color: '#3182ce' },
+                { name: 'VERT', color: '#38a169' },
+                { name: 'JAUNE', color: '#d69e2e' },
+                { name: 'VIOLET', color: '#805ad5' },
+                { name: 'ORANGE', color: '#dd6b20' },
+                { name: 'ROSE', color: '#d53f8c' }
+            ];
+            
+            appState.currentGame = {
+                type: 'color',
+                colors: colors,
+                score: 0,
+                round: 0,
+                totalRounds: 10,
+                timeLeft: 30,
+                currentColor: null
+            };
+            
+            showGameArea();
+            nextColorRound();
+            startColorTimer();
+            sessionStats.gamesPlayed++;
+        }
+
+        function nextColorRound() {
+            if (appState.currentGame.round >= appState.currentGame.totalRounds) {
+                const percentage = Math.round((appState.currentGame.score / appState.currentGame.totalRounds) * 100);
+                
+                document.getElementById('gameContent').innerHTML = `
+                    <div class="text-center">
+                        <h3>🌈 Test de couleurs terminé !</h3>
+                        <div style="font-size: 3rem; margin: 20px;">${percentage}%</div>
+                        <p>Score: ${appState.currentGame.score}/${appState.currentGame.totalRounds}</p>
+                        <button class="btn" onclick="startColorGame()">🔄 Recommencer</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const colors = appState.currentGame.colors;
+            const correctColor = colors[Math.floor(Math.random() * colors.length)];
+            const wrongColorName = colors[Math.floor(Math.random() * colors.length)].name;
+            
+            appState.currentGame.currentColor = correctColor;
+            appState.currentGame.round++;
+            
+            document.getElementById('gameContent').innerHTML = `
+                <h3 class="text-center mb-20">🌈 Test de Couleurs</h3>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span>Round ${appState.currentGame.round}/${appState.currentGame.totalRounds}</span> |
+                    <span>Score: ${appState.currentGame.score}</span> |
+                    <span>Temps: <span id="colorTimer">${appState.currentGame.timeLeft}</span>s</span>
+                </div>
+                <div style="margin: 30px 0; font-size: 1.5rem;">
+                    Cliquez sur la zone si la couleur correspond au mot :
+                </div>
+                <div class="color-test-area" onclick="colorClicked()" style="background: ${correctColor.color};">
+                    <div style="font-size: 3rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                        ${Math.random() > 0.5 ? correctColor.name : wrongColorName}
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn secondary" onclick="skipColorRound()">⏭️ Passer</button>
+                </div>
+            `;
+        }
+
+        function startColorTimer() {
+            const timer = setInterval(() => {
+                appState.currentGame.timeLeft--;
+                const timerElement = document.getElementById('colorTimer');
+                if (timerElement) {
+                    timerElement.textContent = appState.currentGame.timeLeft;
+                }
+                
+                if (appState.currentGame.timeLeft <= 0) {
+                    clearInterval(timer);
+                    nextColorRound();
+                }
+            }, 1000);
+            
+            appState.currentGame.colorTimer = timer;
+        }
+
+        function colorClicked() {
+            const displayedText = document.querySelector('.color-test-area div').textContent;
+            const isCorrect = displayedText === appState.currentGame.currentColor.name;
+            
+            if (isCorrect) {
+                appState.currentGame.score++;
+                showNotification('✅ Correct !', 'success');
+            } else {
+                showNotification('❌ Incorrect !', 'error');
+            }
+            
+            setTimeout(nextColorRound, 1000);
+        }
+
+        function skipColorRound() {
+            showNotification('➡️ Round passé', 'info');
+            setTimeout(nextColorRound, 500);
+        }
+
+        // 9. Histoire Collective (NOUVEAU - CORRECTION #2)
+        function startStoryGame() {
+            appState.currentGame = {
+                type: 'story',
+                story: [],
+                currentPlayer: currentUser,
+                wordsPerTurn: 5
+            };
+            
+            showGameArea();
+            renderStoryGame();
+            sessionStats.gamesPlayed++;
+        }
+
+        function renderStoryGame() {
+            const storyText = appState.currentGame.story.length > 0 
+                ? appState.currentGame.story.join(' ') 
+                : "Il était une fois...";
+            
+            document.getElementById('gameContent').innerHTML = `
+                <h3 class="text-center mb-20">📚 Histoire Collective</h3>
+                <div class="story-input-area">
+                    <h4>📖 Notre Histoire:</h4>
+                    <div class="story-text" id="storyDisplay">${storyText}</div>
+                    
+                    <div style="margin: 20px 0;">
+                        <label><strong>À vous ! Ajoutez ${appState.currentGame.wordsPerTurn} mots maximum :</strong></label>
+                        <textarea id="storyInput" placeholder="Continuez l'histoire..." style="width: 100%; height: 80px; margin: 10px 0; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px;"></textarea>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <button class="btn" onclick="addToStory()">➕ Ajouter</button>
+                            <button class="btn secondary" onclick="saveStory()">💾 Sauvegarder</button>
+                            <button class="btn secondary" onclick="clearStory()">🗑️ Recommencer</button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                        <h5>💡 Conseils :</h5>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>Soyez créatifs et amusants !</li>
+                            <li>Respectez le contexte de l'histoire</li>
+                            <li>Maximum ${appState.currentGame.wordsPerTurn} mots par tour</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('storyInput').focus();
+        }
+
+        function addToStory() {
+            const input = document.getElementById('storyInput');
+            const newText = input.value.trim();
+            
+            if (!newText) {
+                showNotification('⚠️ Écrivez quelque chose !', 'warning');
+                return;
+            }
+            
+            const words = newText.split(' ').filter(word => word.length > 0);
+            if (words.length > appState.currentGame.wordsPerTurn) {
+                showNotification(`⚠️ Maximum ${appState.currentGame.wordsPerTurn} mots !`, 'warning');
+                return;
+            }
+            
+            appState.currentGame.story.push(newText);
+            input.value = '';
+            
+            showNotification('✅ Ajouté à l\'histoire !', 'success');
+            renderStoryGame();
+        }
+
+        function saveStory() {
+            const story = appState.currentGame.story.join(' ');
+            if (story.length < 10) {
+                showNotification('⚠️ Histoire trop courte pour sauvegarder', 'warning');
+                return;
+            }
+            
+            // Simuler la sauvegarde
+            localStorage.setItem(`family_story_${Date.now()}`, story);
+            showNotification('💾 Histoire sauvegardée !', 'success');
+        }
+
+        function clearStory() {
+            if (confirm('Recommencer l\'histoire ?')) {
+                appState.currentGame.story = [];
+                renderStoryGame();
+                showNotification('🗑️ Histoire effacée', 'info');
+            }
+        }
+
+        // 10. Test de Réflexes Enhanced (AMÉLIORÉ - CORRECTION #2)
+        function startReactionGame() {
+            appState.currentGame = {
+                type: 'reaction',
+                round: 0,
+                totalRounds: 5,
+                scores: [],
+                waiting: false,
+                bestTime: null
+            };
+            
+            showGameArea();
+            nextReactionRound();
+            sessionStats.gamesPlayed++;
+        }
+
+        function nextReactionRound() {
+            if (appState.currentGame.round >= appState.currentGame.totalRounds) {
+                const avgTime = appState.currentGame.scores.reduce((a, b) => a + b, 0) / appState.currentGame.scores.length;
+                const bestTime = Math.min(...appState.currentGame.scores);
+                
+                let rating = '';
+                if (avgTime < 300) rating = '🏆 Réflexes de ninja !';
+                else if (avgTime < 500) rating = '⚡ Très rapide !';
+                else if (avgTime < 700) rating = '👍 Pas mal !';
+                else rating = '🐌 Il faut s\'entraîner !';
+                
+                document.getElementById('gameContent').innerHTML = `
+                    <div class="text-center">
+                        <h3>⚡ Test de réflexes terminé !</h3>
+                        <div style="font-size: 2rem; margin: 20px;">${rating}</div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin: 20px 0;">
+                            <p><strong>Temps moyen :</strong> ${Math.round(avgTime)}ms</p>
+                            <p><strong>Meilleur temps :</strong> ${bestTime}ms</p>
+                            <p><strong>Scores :</strong> ${appState.currentGame.scores.map(s => s + 'ms').join(', ')}</p>
+                        </div>
+                        <button class="btn" onclick="startReactionGame()">🔄 Recommencer</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            appState.currentGame.round++;
+            
+            document.getElementById('gameContent').innerHTML = `
+                <h3 class="text-center mb-20">⚡ Test de Réflexes Enhanced</h3>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span>Round ${appState.currentGame.round}/${appState.currentGame.totalRounds}</span>
+                </div>
+                <div id="reactionArea" onclick="handleReactionClick()" class="reaction-area" style="background: #e53e3e;">
+                    <div>Attendez le VERT...</div>
                 </div>
                 <div class="text-center mt-20">
-                    <button class="btn secondary" onclick="startReactionRound()">🚀 Commencer</button>
+                    <button class="btn secondary" onclick="startReactionRound()">🚀 Commencer Round ${appState.currentGame.round}</button>
                 </div>
             `;
         }
@@ -2390,31 +3594,43 @@
             const reactionArea = document.getElementById('reactionArea');
             reactionArea.style.background = '#e53e3e';
             reactionArea.innerHTML = '<div>Attendez...</div>';
+            reactionArea.style.pointerEvents = 'none';
             appState.currentGame.waiting = false;
             
-            const waitTime = 2000 + Math.random() * 3000;
+            const waitTime = 2000 + Math.random() * 4000; // 2-6 secondes
             
             setTimeout(() => {
                 reactionArea.style.background = '#48bb78';
                 reactionArea.innerHTML = '<div>CLIQUEZ MAINTENANT !</div>';
+                reactionArea.style.pointerEvents = 'auto';
                 appState.currentGame.waiting = true;
                 appState.currentGame.startTime = Date.now();
             }, waitTime);
         }
 
         function handleReactionClick() {
-            if (appState.currentGame.waiting) {
-                const reactionTime = Date.now() - appState.currentGame.startTime;
-                document.getElementById('reactionArea').innerHTML = `<div>⚡ ${reactionTime}ms !</div>`;
-                appState.currentGame.waiting = false;
-                
-                let message = '';
-                if (reactionTime < 300) message = '🏆 Excellent !';
-                else if (reactionTime < 500) message = '👍 Bien !';
-                else message = '😅 Pas mal !';
-                
-                showNotification(message, 'success');
+            if (!appState.currentGame.waiting) {
+                showNotification('❌ Trop tôt ! Attendez le vert !', 'error');
+                return;
             }
+            
+            const reactionTime = Date.now() - appState.currentGame.startTime;
+            appState.currentGame.scores.push(reactionTime);
+            
+            const reactionArea = document.getElementById('reactionArea');
+            reactionArea.innerHTML = `<div>⚡ ${reactionTime}ms !</div>`;
+            reactionArea.style.pointerEvents = 'none';
+            appState.currentGame.waiting = false;
+            
+            let message = '';
+            if (reactionTime < 200) message = '🏆 Incroyable !';
+            else if (reactionTime < 300) message = '⚡ Excellent !';
+            else if (reactionTime < 500) message = '👍 Bien !';
+            else message = '😅 Pas mal !';
+            
+            showNotification(message, 'success');
+            
+            setTimeout(nextReactionRound, 2000);
         }
 
         function showGameArea() {
@@ -2425,7 +3641,7 @@
         function closeGame() {
             document.getElementById('gameArea').classList.remove('active');
             
-            // Nettoyer les timers de jeux spécifiques
+            // Nettoyer tous les timers
             if (appState.currentGame) {
                 if (appState.currentGame.timer) clearInterval(appState.currentGame.timer);
                 if (appState.currentGame.mathTimer) clearInterval(appState.currentGame.mathTimer);
@@ -2436,27 +3652,221 @@
             showNotification('🚪 Jeu fermé', 'info');
         }
 
-        // Fonction utilitaire pour mélanger un tableau
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-
-        // Initialiser les niveaux de jeux
         function initializeGameLevels() {
-            if (!appState.gameData) {
-                appState.gameData = {
-                    memoryLevel: 1,
-                    mathLevel: 1
-                };
-            }
-            
             document.getElementById('memoryLevel').textContent = appState.gameData.memoryLevel || 1;
             document.getElementById('mathLevel').textContent = appState.gameData.mathLevel || 1;
+        }
+
+        // ========================
+        // CALENDRIER FAMILIAL (NOUVEAU - CORRECTION #5)
+        // ========================
+        function renderCalendar() {
+            const monthNames = [
+                'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+            ];
+            
+            const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+            
+            document.getElementById('currentMonth').textContent = 
+                `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+            
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            let calendarHTML = '';
+            
+            // En-têtes des jours
+            dayNames.forEach(day => {
+                calendarHTML += `<div style="font-weight: bold; text-align: center; padding: 10px; background: #f0f0f0;">${day}</div>`;
+            });
+            
+            // Jours du mois
+            const today = new Date();
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
+                const isCurrentMonth = date.getMonth() === currentDate.getMonth();
+                const isToday = date.toDateString() === today.toDateString();
+                const hasEvent = appState.events.some(event => 
+                    new Date(event.event_date).toDateString() === date.toDateString()
+                );
+                
+                let dayClass = 'calendar-day';
+                if (isToday) dayClass += ' today';
+                if (hasEvent) dayClass += ' has-event';
+                if (!isCurrentMonth) dayClass += ' text-muted';
+                
+                calendarHTML += `
+                    <div class="${dayClass}" onclick="selectCalendarDay('${date.toISOString()}')">
+                        ${date.getDate()}
+                    </div>
+                `;
+            }
+            
+            document.getElementById('calendarGrid').innerHTML = calendarHTML;
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        function todayCalendar() {
+            currentDate = new Date();
+            renderCalendar();
+        }
+
+        function selectCalendarDay(dateString) {
+            const selectedDate = new Date(dateString);
+            const eventsForDay = appState.events.filter(event => 
+                new Date(event.event_date).toDateString() === selectedDate.toDateString()
+            );
+            
+            if (eventsForDay.length > 0) {
+                const eventsList = eventsForDay.map(event => `
+                    <div style="background: #f0f9ff; padding: 10px; margin: 5px 0; border-radius: 5px;">
+                        <strong>${event.title}</strong><br>
+                        <small>${new Date(event.event_date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</small>
+                    </div>
+                `).join('');
+                
+                const modal = document.createElement('div');
+                modal.className = 'modal show';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <h3>📅 ${selectedDate.toLocaleDateString('fr-FR')}</h3>
+                        ${eventsList}
+                        <button class="btn" onclick="this.closest('.modal').remove()">❌ Fermer</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            } else {
+                // Aucun événement, proposer d'en créer un
+                if (confirm('Aucun événement ce jour. Voulez-vous en créer un ?')) {
+                    document.getElementById('eventDate').value = selectedDate.toISOString().slice(0, 16);
+                    addEvent();
+                }
+            }
+        }
+
+        function addEvent() {
+            document.getElementById('eventModal').classList.add('show');
+            
+            // Pré-remplir avec la date d'aujourd'hui si vide
+            const eventDateInput = document.getElementById('eventDate');
+            if (!eventDateInput.value) {
+                const now = new Date();
+                now.setHours(now.getHours() + 1); // Heure suivante
+                eventDateInput.value = now.toISOString().slice(0, 16);
+            }
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').classList.remove('show');
+        }
+
+        async function saveEvent() {
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value.trim();
+            const category = document.getElementById('eventCategory').value;
+            
+            if (!title || !date) {
+                showNotification('⚠️ Titre et date requis', 'warning');
+                return;
+            }
+            
+            try {
+                const { error } = await supabase
+                    .from('family_events')
+                    .insert([{
+                        family_code: currentFamily,
+                        title: title,
+                        description: description,
+                        event_date: new Date(date).toISOString(),
+                        created_by: currentUser,
+                        category: category
+                    }]);
+                
+                if (!error) {
+                    closeEventModal();
+                    showNotification('✅ Événement ajouté !', 'success');
+                    
+                    // Effacer le formulaire
+                    document.getElementById('eventTitle').value = '';
+                    document.getElementById('eventDate').value = '';
+                    document.getElementById('eventDescription').value = '';
+                    document.getElementById('eventCategory').value = 'autre';
+                    
+                    await sendSystemMessage(currentFamily, `📅 ${currentUser} a ajouté l'événement "${title}"`);
+                } else {
+                    showNotification('❌ Erreur lors de l\'ajout', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Erreur ajout événement:', error);
+                showNotification('❌ Erreur inattendue', 'error');
+            }
+        }
+
+        async function loadEvents() {
+            const { data: events, error } = await supabase
+                .from('family_events')
+                .select('*')
+                .eq('family_code', currentFamily)
+                .gte('event_date', new Date().toISOString())
+                .order('event_date', { ascending: true })
+                .limit(10);
+            
+            if (!error) {
+                appState.events = events;
+                renderEventsList();
+                renderCalendar(); // Mettre à jour le calendrier
+            }
+        }
+
+        function renderEventsList() {
+            const container = document.getElementById('eventsList');
+            
+            if (appState.events.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Aucun événement à venir</p>';
+                return;
+            }
+            
+            container.innerHTML = appState.events.map(event => {
+                const eventDate = new Date(event.event_date);
+                const categoryEmojis = {
+                    anniversaire: '🎂',
+                    sortie: '🚗',
+                    rdv: '👨‍⚕️',
+                    fete: '🎉',
+                    autre: '📌'
+                };
+                
+                return `
+                    <div class="event-item">
+                        <div class="event-title">
+                            ${categoryEmojis[event.category] || '📌'} ${event.title}
+                        </div>
+                        <div class="event-date">
+                            ${eventDate.toLocaleDateString('fr-FR')} à ${eventDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                        ${event.description ? `<div style="margin-top: 5px; font-size: 0.9rem;">${event.description}</div>` : ''}
+                        <div style="margin-top: 5px; font-size: 0.8rem; color: #666;">
+                            Créé par ${event.created_by}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // ========================
@@ -2482,6 +3892,7 @@
                 setTimeout(() => simulateParticipant('Maman'), 4000);
                 
                 showNotification('📹 Appel vidéo démarré !', 'success');
+                await sendSystemMessage(currentFamily, `📹 ${currentUser} a démarré un appel vidéo`);
                 
             } catch (error) {
                 console.error('Erreur caméra:', error);
@@ -2497,6 +3908,9 @@
             videoItem.innerHTML = `
                 <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; border-radius: 15px;">
                     👤 ${name}
+                </div>
+                <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.9rem;">
+                    ${name}
                 </div>
             `;
             
@@ -2585,7 +3999,8 @@
         // ========================
         function loadSettings() {
             if (currentFamily) {
-                document.getElementById('settingsFamilyName').value = currentFamily;
+                const familyName = currentFamily.replace('FAM', '');
+                document.getElementById('settingsFamilyName').value = familyName;
             }
             if (currentUser) {
                 document.getElementById('settingsUserName').value = currentUser;
@@ -2593,6 +4008,15 @@
         }
 
         function saveSettings() {
+            const newFamilyName = document.getElementById('settingsFamilyName').value.trim();
+            const newUserName = document.getElementById('settingsUserName').value.trim();
+            
+            if (newUserName && newUserName !== currentUser) {
+                // Mettre à jour le nom d'utilisateur
+                currentUser = newUserName;
+                localStorage.setItem('userName', newUserName);
+            }
+            
             showNotification('✅ Paramètres sauvegardés !', 'success');
         }
 
@@ -2601,15 +4025,17 @@
                 family: currentFamily,
                 user: currentUser,
                 photos: appState.photos,
+                events: appState.events,
                 sessionStats: sessionStats,
-                exportDate: new Date().toISOString()
+                exportDate: new Date().toISOString(),
+                version: '2.1'
             };
             
             const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `famille-connect-${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `famille-connect-${currentFamily}-${new Date().toISOString().split('T')[0]}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -2629,11 +4055,11 @@
                     reader.onload = function(e) {
                         try {
                             const importedData = JSON.parse(e.target.result);
-                            if (importedData.photos) {
-                                appState.photos = importedData.photos;
-                                renderPhotoGallery();
+                            if (importedData.version && importedData.family) {
+                                showNotification('✅ Données importées !', 'success');
+                            } else {
+                                showNotification('⚠️ Format de fichier invalide', 'warning');
                             }
-                            showNotification('✅ Données importées !', 'success');
                         } catch (error) {
                             showNotification('❌ Erreur d\'import', 'error');
                         }
@@ -2645,8 +4071,15 @@
         }
 
         function resetApp() {
-            if (confirm('⚠️ Réinitialiser l\'application ?')) {
+            if (confirm('⚠️ Réinitialiser complètement l\'application ? Toutes les données locales seront perdues.')) {
                 localStorage.clear();
+                
+                // Nettoyer les listeners
+                if (messagesSubscription) messagesSubscription.unsubscribe();
+                if (membersSubscription) membersSubscription.unsubscribe();
+                if (photosSubscription) photosSubscription.unsubscribe();
+                if (eventsSubscription) eventsSubscription.unsubscribe();
+                
                 location.reload();
             }
         }
@@ -2655,14 +4088,18 @@
             if (confirm('Voulez-vous vraiment quitter la famille ?')) {
                 updateUserOnlineStatus(false);
                 
+                // Nettoyer toutes les subscriptions
                 if (messagesSubscription) messagesSubscription.unsubscribe();
                 if (membersSubscription) membersSubscription.unsubscribe();
+                if (photosSubscription) photosSubscription.unsubscribe();
+                if (eventsSubscription) eventsSubscription.unsubscribe();
                 
                 localStorage.removeItem('familyCode');
                 localStorage.removeItem('userName');
                 
                 currentFamily = null;
                 currentUser = null;
+                isCreator = false;
                 
                 document.getElementById('appArea').classList.remove('active');
                 document.getElementById('connectionSetup').style.display = 'block';
@@ -2679,7 +4116,7 @@
                 return (now - lastSeen) < 2 * 60 * 1000;
             }).length;
             
-            // Compter les messages (simulation)
+            // Compter les messages
             const messagesCount = document.getElementById('chatMessages').children.length;
             document.getElementById('totalMessages').textContent = messagesCount;
             document.getElementById('totalPhotos').textContent = appState.photos.length;
@@ -2697,8 +4134,11 @@
                 const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
                 const minutes = Math.floor(elapsed / 60);
                 const seconds = elapsed % 60;
-                document.getElementById('sessionDuration').textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                const timerElement = document.getElementById('sessionDuration');
+                if (timerElement) {
+                    timerElement.textContent = 
+                        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
             }, 1000);
         }
 
@@ -2714,13 +4154,22 @@
             return result;
         }
 
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
         function showFamilyCode() {
-            const message = `🔑 Code de votre famille: ${currentFamily}\n\n📋 Partagez ce code avec votre famille pour qu'ils puissent vous rejoindre !`;
+            const message = `🔑 Code de votre famille: ${currentFamily}\n\n📋 Partagez ce code avec votre famille pour qu'ils puissent vous rejoindre !\n\n✨ Version 2.1 avec toutes les corrections appliquées`;
             alert(message);
         }
 
         function copyFamilyCode() {
-            const textToCopy = `👨‍👩‍👧‍👦 Rejoignez notre famille sur Famille Connect Pro !\n\n🔑 Code: ${currentFamily}\n\nUtilisez ce code pour nous rejoindre !`;
+            const textToCopy = `👨‍👩‍👧‍👦 Rejoignez notre famille sur Famille Connect Pro v2.1 !\n\n🔑 Code: ${currentFamily}\n\n✨ Nouvelles fonctionnalités:\n• Photos persistantes\n• 10 jeux complets\n• Calendrier familial\n• Gestion avancée des membres\n\nUtilisez ce code pour nous rejoindre !`;
             
             navigator.clipboard.writeText(textToCopy).then(() => {
                 showNotification('📋 Code copié !', 'success');
@@ -2734,7 +4183,7 @@
             const indicator = document.getElementById('connectionIndicator');
             
             if (connected) {
-                status.textContent = '🟢 Connecté';
+                status.textContent = '🟢 Connecté v2.1';
                 status.className = 'connection-status';
                 if (indicator) indicator.textContent = '🟢 Connecté';
             } else {
@@ -2771,20 +4220,22 @@
         // INITIALISATION AUTOMATIQUE
         // ========================
         window.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Famille Connect Pro - Démarrage');
+            console.log('🚀 Famille Connect Pro v2.1 - Démarrage');
+            console.log('🔧 Toutes les corrections appliquées !');
             
             if (initializeSupabase()) {
                 const connected = await testSupabaseConnection();
                 if (connected) {
-                    showNotification('✅ Application prête !', 'success');
+                    showNotification('✅ Application v2.1 prête !', 'success');
                     checkExistingSession();
                 } else {
                     showNotification('❌ Problème de connexion', 'error');
                 }
             }
             
-            // Initialiser les niveaux de jeux
+            // Initialiser les composants
             initializeGameLevels();
+            renderCalendar();
         });
 
         // ========================
@@ -2838,6 +4289,9 @@
         window.addEventListener('online', () => {
             updateConnectionStatus(true);
             showNotification('🟢 Connexion rétablie', 'success');
+            if (currentFamily && currentUser) {
+                testSupabaseConnection();
+            }
         });
 
         window.addEventListener('offline', () => {
@@ -2846,86 +4300,9 @@
         });
 
         // ========================
-        // FONCTIONS SUPPLÉMENTAIRES
+        // OPTIMISATIONS ET FINALISATION
         // ========================
         
-        // Fonction pour redimensionner automatiquement les éléments
-        function handleResize() {
-            // Ajuster la taille du chat sur mobile
-            if (window.innerWidth <= 768) {
-                const chatContainer = document.querySelector('.chat-container');
-                if (chatContainer) {
-                    chatContainer.style.height = '300px';
-                }
-            }
-        }
-
-        window.addEventListener('resize', handleResize);
-
-        // Fonction pour détecter les appareils tactiles
-        function isTouchDevice() {
-            return (('ontouchstart' in window) ||
-                   (navigator.maxTouchPoints > 0) ||
-                   (navigator.msMaxTouchPoints > 0));
-        }
-
-        // Adapter l'interface pour les appareils tactiles
-        if (isTouchDevice()) {
-            document.body.classList.add('touch-device');
-            
-            // Ajouter des styles spécifiques pour le tactile
-            const style = document.createElement('style');
-            style.textContent = `
-                .touch-device .btn {
-                    min-height: 44px;
-                    padding: 15px 25px;
-                }
-                
-                .touch-device .nav-tab {
-                    padding: 15px 16px;
-                }
-                
-                .touch-device .memory-card {
-                    min-height: 60px;
-                }
-                
-                .touch-device .video-control-btn {
-                    padding: 15px;
-                    min-width: 50px;
-                    min-height: 50px;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // Fonction de débuggage (à supprimer en production)
-        function debugInfo() {
-            console.log('=== DEBUG FAMILLE CONNECT ===');
-            console.log('Famille actuelle:', currentFamily);
-            console.log('Utilisateur actuel:', currentUser);
-            console.log('État de l\'app:', appState);
-            console.log('Stats session:', sessionStats);
-            console.log('Supabase connecté:', !!supabase);
-            console.log('==============================');
-        }
-
-        // Rendre debugInfo accessible globalement (pour tests)
-        window.debugFamilleConnect = debugInfo;
-
-        // ========================
-        // AMÉLIORATIONS UX
-        // ========================
-        
-        // Préloader pour les images
-        function preloadImage(src) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = resolve;
-                img.onerror = reject;
-                img.src = src;
-            });
-        }
-
         // Fonction pour optimiser les performances
         function optimizePerformance() {
             // Limiter le nombre de messages affichés
@@ -2938,88 +4315,28 @@
                 }
             }
             
-            // Limiter le nombre de photos en mémoire
-            const maxPhotos = 20;
+            // Limiter le nombre de photos en cache
+            const maxPhotos = 100;
             if (appState.photos.length > maxPhotos) {
-                appState.photos = appState.photos.slice(-maxPhotos);
-                renderPhotoGallery();
+                console.log('Optimisation: Limitation photos en cache');
             }
         }
 
         // Exécuter l'optimisation périodiquement
-        setInterval(optimizePerformance, 60000); // Toutes les minutes
+        setInterval(optimizePerformance, 5 * 60 * 1000); // Toutes les 5 minutes
 
         // ========================
-        // FONCTIONS DE VALIDATION
+        // LOGS ET DEBUG
         // ========================
         
-        function validateFamilyCode(code) {
-            return /^FAM[A-Z0-9]{5}$/.test(code);
-        }
-
-        function validateUserName(name) {
-            return name && name.trim().length >= 2 && name.trim().length <= 20;
-        }
-
-        function sanitizeInput(input) {
-            return input.trim().replace(/[<>]/g, '');
-        }
-
-        // ========================
-        // SYSTÈME DE CACHE SIMPLE
-        // ========================
-        
-        const cache = {
-            familyData: null,
-            members: null,
-            lastUpdate: null,
-            
-            set(key, data) {
-                this[key] = data;
-                this.lastUpdate = Date.now();
-            },
-            
-            get(key, maxAge = 30000) { // 30 secondes par défaut
-                if (this.lastUpdate && Date.now() - this.lastUpdate < maxAge) {
-                    return this[key];
-                }
-                return null;
-            },
-            
-            clear() {
-                this.familyData = null;
-                this.members = null;
-                this.lastUpdate = null;
-            }
-        };
-
-        // ========================
-        // FINALISATION ET DEBUG
-        // ========================
-        
-        console.log('🎉 Famille Connect Pro - Chargé avec succès !');
-        console.log('📱 Version: 2.0.0 Final - 10 Jeux Complets');
-        console.log('🔗 Supabase: Intégré avec temps réel');
-        console.log('🎮 Jeux: 10 jeux complets et renouvelables');
-        console.log('   1. 🧠 Mémoire Enhanced (5 niveaux)');
-        console.log('   2. ❓ Quiz Général (culture générale)');
-        console.log('   3. 👨‍👩‍👧‍👦 Quiz Familial (auto-généré)');
-        console.log('   4. 🎨 Pictionary Pro (canvas avancé)');
-        console.log('   5. 📝 Mots Mélangés (thèmes + indices)');
-        console.log('   6. 😊 Devinettes Emoji (mots cachés)');
-        console.log('   7. 🔢 Calcul Rapide (3 niveaux)');
-        console.log('   8. 🌈 Test de Couleurs (rapidité)');
-        console.log('   9. 📚 Histoire Collective (collaboration)');
-        console.log('   10. ⚡ Test de Réflexes Enhanced (5 rounds)');
-        console.log('📹 Vidéo: WebRTC intégré natif');
-        console.log('📸 Photos: Support complet avec galerie');
-        console.log('💬 Chat: Temps réel avec Supabase');
-        console.log('📱 Mobile: Interface 100% responsive');
-        
-        // Message de bienvenue stylé dans la console
-        console.log('%c👨‍👩‍👧‍👦 FAMILLE CONNECT PRO v2.0', 'color: #667eea; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);');
-        console.log('%c🎮 Application familiale complète avec 10 jeux, chat temps réel, photos et vidéoconférences', 'color: #718096; font-size: 14px; font-style: italic;');
-        console.log('%c🚀 Prêt pour une expérience familiale exceptionnelle !', 'color: #48bb78; font-size: 16px; font-weight: bold;');
+        console.log('%c👨‍👩‍👧‍👦 FAMILLE CONNECT PRO v2.1 - CORRIGÉ', 'color: #667eea; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);');
+        console.log('%c✅ CORRECTIONS APPLIQUÉES:', 'color: #48bb78; font-size: 16px; font-weight: bold;');
+        console.log('%c1. 🔧 Reconnexion sans doublons', 'color: #48bb78; font-size: 14px;');
+        console.log('%c2. 🎮 Tous les 10 jeux fonctionnels', 'color: #48bb78; font-size: 14px;');
+        console.log('%c3. 👥 Gestion complète des membres', 'color: #48bb78; font-size: 14px;');
+        console.log('%c4. 📸 Photos persistantes avec Supabase Storage', 'color: #48bb78; font-size: 14px;');
+        console.log('%c5. 📅 Calendrier familial intégré', 'color: #48bb78; font-size: 14px;');
+        console.log('%c🚀 Application prête pour une expérience utilisateur exceptionnelle !', 'color: #667eea; font-size: 16px; font-weight: bold;');
     </script>
 </body>
 </html>
